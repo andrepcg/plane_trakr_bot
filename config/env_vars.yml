@@ -1,0 +1,12 @@
+default: &default
+  DATABASE_URL: sqlite://db/development.db
+  TELEGRAM_TOKEN: ""
+  RUN_BOT: "true"
+
+production:
+  <<: *default
+  DATABASE_URL: sqlite://db/production.db
+
+development:
+  <<: *default
+  TELEGRAM_TOKEN: token_here

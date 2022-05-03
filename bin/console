@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require 'bundler/setup'
+require 'pry'
+
+ENV["RUN_BOT"] = "false"
+require_relative '../app'
+
+Pry.start
