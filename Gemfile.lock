@@ -96,6 +96,11 @@ GEM
       parser (>= 3.1.1.0)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
+    sentry-ruby (5.3.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      sentry-ruby-core (= 5.3.0)
+    sentry-ruby-core (5.3.0)
+      concurrent-ruby
     sequel (5.56.0)
     sqlite3 (1.4.2)
     telegram-bot-ruby (0.19.2)
@@ -127,6 +132,7 @@ DEPENDENCIES
   rake
   redis
   rubocop (~> 1.28, >= 1.28.2)
+  sentry-ruby
   sequel (~> 5.56)
   sqlite3
   telegram-bot-ruby

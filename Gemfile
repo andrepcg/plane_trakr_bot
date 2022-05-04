@@ -15,6 +15,7 @@ gem 'redis'
 gem 'sequel', '~> 5.56'
 gem 'telegram-bot-ruby'
 gem 'zeitwerk'
+gem "sentry-ruby"
 
 group :development do
   gem 'byebug'
