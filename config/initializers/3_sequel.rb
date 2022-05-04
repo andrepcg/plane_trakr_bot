@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'sequel'
-require 'sqlite3'
+require 'sqlite3' if ENV["RUBY_ENV"] == "development"
+require 'pg'
 
 Sequel.extension :migration
 
