@@ -23,6 +23,6 @@ class AirplaneSimpleDetails < Dry::Struct
 
     return unless icao
 
-    new(icao: icao, registration: registration, callsign: callsign)
+    new(icao: icao.upcase, registration: registration.upcase, callsign: callsign&.upcase)
   end
 end
