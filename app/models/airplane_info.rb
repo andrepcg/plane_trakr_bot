@@ -9,7 +9,7 @@ class AirplaneInfo < Dry::Struct
   attribute :r, Dry.Types::String
   attribute :t, Dry.Types::String
   attribute :desc, Dry.Types::String
-  attribute :timestamp, Dry.Types::Coercible::Float
+  attribute :timestamp, Dry.Types::Coercible::Float # last timestamp
   attribute :trace, Dry.Types::Array.of(AirplaneTrace)
 
   def self.build_from_trace(trace)

@@ -20,7 +20,7 @@ class Alert < Sequel::Model
     "#{registration} (ICAO: #{icao})"
   end
 
-  def increment_alerts
+  def increment_alerts!
     update(alerts_sent: Sequel.expr(1) + :alerts_sent)
   end
 end
