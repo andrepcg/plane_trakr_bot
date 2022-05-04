@@ -120,6 +120,11 @@ module TelegramBot
     end
 
     def delete_alert_message
+      if user_alerts.count == 0
+        answer_with_message("You don't have any alerts")
+        return
+      end
+
       kb = user_alerts.map.with_index do |alert, i|
         name = "#{i + 1} - #{alert.name}"
         Telegram::Bot::Types::InlineKeyboardButton.new(text: name, callback_data: "delete_#{alert.id}")

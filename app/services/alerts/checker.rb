@@ -3,6 +3,7 @@ module Alerts
   class Checker
     class << self
       def call
+        LOGGER.debug "Processing alerts"
         bot = Bot.new.client
 
         alerts.paged_each do |alert|
