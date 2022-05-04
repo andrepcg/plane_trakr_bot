@@ -1,2 +1,3 @@
+# frozen_string_literal: true
 
-LOGGER = Logger.new(STDOUT, Logger::DEBUG)
+LOGGER = Logger.new($stdout, Logger::DEBUG)

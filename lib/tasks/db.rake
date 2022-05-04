@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../migration"
+require_relative '../migration'
 
 namespace :db do
   desc 'Prints current schema version'
@@ -28,7 +28,7 @@ namespace :db do
 end
 
 namespace :g do
-  desc "generate migration"
+  desc 'generate migration'
   task migration: :environment do
     Migration.new.generate_migration(ARGV[1])
   end

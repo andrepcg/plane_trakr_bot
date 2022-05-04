@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 class CallsignHandler
   class << self
@@ -13,12 +14,12 @@ class CallsignHandler
 
     def get_registration_from_callsign(value)
       res = JsonLoader.load("https://www.flightradar24.com/v1/search/web/find?query=#{value.upcase}&limit=10")
-      return unless res["results"].size > 0
+      return unless res['results'].size.positive?
 
-      record = res["results"].select { |r| r["type"] == "live" }
+      record = res['results'].select { |r| r['type'] == 'live' }
       return unless record
 
-      record["detail"]["reg"]
+      record['detail']['reg']
     end
   end
 end

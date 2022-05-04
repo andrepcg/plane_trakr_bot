@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require "rubygems"
+require 'rubygems'
 
-ENV["RUBY_ENV"] ||= "development"
+ENV['RUBY_ENV'] ||= 'development'
 
-require "bundler"
+require 'bundler'
 require 'dotenv'
-Bundler.require(:default, ENV["RUBY_ENV"])
+Bundler.require(:default, ENV['RUBY_ENV'])
 
-Dotenv.load(".env.local") if ENV["RUBY_ENV"] == "development"
+Dotenv.load('.env.local') if ENV['RUBY_ENV'] == 'development'
 
-require "active_support"
-require "active_support/time"
+require 'active_support'
+require 'active_support/time'
 require 'active_support/all'
 
 loader = Zeitwerk::Loader.new

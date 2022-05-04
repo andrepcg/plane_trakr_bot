@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 module TelegramBot
   class State
-    STATE = {}
+    STATE = {}.freeze
 
     def get(chat_id)
       STATE[chat_id]
     end
 
-    def set(chat_id, s)
-      STATE[chat_id] = s
+    def set(chat_id, value)
+      STATE[chat_id] = value
     end
 
     def delete(chat_id)

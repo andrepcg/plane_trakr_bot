@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "active_support/string_inquirer"
+require 'active_support/string_inquirer'
 
 module Initialization
   def initialize!
-    raise "Application has already been initialized." if @initialized
+    raise 'Application has already been initialized.' if @initialized
 
     run_initializers
     @initialized = true
@@ -12,8 +12,9 @@ module Initialization
 
   def env
     @env ||= begin
-      raise "RUBY_ENV env var is missing!" if ENV["RUBY_ENV"].nil?
-      ActiveSupport::StringInquirer.new(ENV["RUBY_ENV"])
+      raise 'RUBY_ENV env var is missing!' if ENV['RUBY_ENV'].nil?
+
+      ActiveSupport::StringInquirer.new(ENV['RUBY_ENV'])
     end
   end
 
@@ -36,7 +37,7 @@ module Initialization
     # Inspired by Rails:
     # https://github.com/rails/rails/blob/7578e6f141e3c24fc6a1208e189eb1958d0b304f/railties/lib/rails/engine.rb#L364
     call_stack = caller_locations.map { |l| l.absolute_path || l.path }
-    candidates = call_stack.reject { |p| p.match?(/ruby\/gems/) }
+    candidates = call_stack.reject { |p| p.match?(%r{ruby/gems}) }
 
     candidates.each do |f|
       dir = File.dirname(f)
@@ -48,7 +49,7 @@ module Initialization
     end
 
     raise "Couldn't find root path for application. "\
-      "Make sure that boot.rb file is present in root directory."
+      'Make sure that boot.rb file is present in root directory.'
   end
 
   # Loads values from `config/env_vars.yml` file and assigns them to `ENV`.
@@ -66,15 +67,15 @@ module Initialization
   #   URANINITE_DB_DATABASE: "radium_development"
   #   DDB_TABLE_NAME: "radium-tracking-stats-staging"
   def initialize_env_vars
-    file = File.expand_path(File.join(config.root, "config/env_vars.yml"))
-    raise "config/env_vars.yml file is missing" unless File.exist?(file)
+    file = File.expand_path(File.join(config.root, 'config/env_vars.yml'))
+    raise 'config/env_vars.yml file is missing' unless File.exist?(file)
 
     yaml_content = YAML.load_file(file)
 
     return unless yaml_content.key?(env)
 
     yaml_content[env].each do |key, value|
-      ENV[key] ||= value || ""
+      ENV[key] ||= value || ''
     end
   end
 
@@ -92,6 +93,6 @@ module Initialization
   # Loads Rails-like initializers by including all files (sorted alphabetically)
   # contained in `config/initializers` directory.
   def run_config_initializer_files
-    Dir[File.join(config.root, "config", "initializers", "**", "*.rb")].sort.each { |f| require f }
+    Dir[File.join(config.root, 'config', 'initializers', '**', '*.rb')].sort.each { |f| require f }
   end
 end

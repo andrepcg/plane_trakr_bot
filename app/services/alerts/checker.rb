@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 
 module Alerts
   class Checker
     class << self
       def call
-        LOGGER.debug "Processing alerts"
+        LOGGER.debug "Processing #{alerts.count} alerts"
         bot = Bot.new.client
 
         alerts.paged_each do |alert|

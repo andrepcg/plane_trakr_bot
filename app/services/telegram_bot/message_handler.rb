@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
+require 'English'
 module TelegramBot
   class MessageHandler
-    WAITING_FOR_ID_CREATE = "waiting_for_id_create"
-    WAITING_FOR_ID_DELETE = "waiting_for_id_delete"
+    WAITING_FOR_ID_CREATE = 'waiting_for_id_create'
+    WAITING_FOR_ID_DELETE = 'waiting_for_id_delete'
 
-    attr_reader :message
-    attr_reader :bot
-    attr_reader :user
+    attr_reader :message, :bot, :user
 
     GREETING_MARKUP = Telegram::Bot::Types::InlineKeyboardMarkup.new(
       inline_keyboard: [
@@ -27,17 +26,17 @@ module TelegramBot
     def respond
       chat_state = @state.get(chat_id)
 
-      on_text(/^\/(start|help)/) do
+      on_text(%r{^/(start|help)}) do
         answer_with_greeting_message
       end
 
-      on_text(/^\/create_alert ([a-z\-0-9]+)/i) do |id|
+      on_text(%r{^/create_alert ([a-z\-0-9]+)}i) do |id|
         create_alert(id)
       end
 
-      on_text(/^\/create_alert$/) do
+      on_text(%r{^/create_alert$}) do
         @state.set(chat_id, WAITING_FOR_ID_CREATE)
-        answer_with_message("Enter a ICAO, Registration ID or Callsign")
+        answer_with_message('Enter a ICAO, Registration ID or Callsign')
       end
 
       on_text(/^([a-z\-0-9]+)/i) do |id|
@@ -47,7 +46,7 @@ module TelegramBot
         @state.delete(chat_id)
       end
 
-      on_text(/^\/view_alerts$/) do |id|
+      on_text(%r{^/view_alerts$}) do |_id|
         view_alerts
       end
 
@@ -69,7 +68,7 @@ module TelegramBot
 
       on_callback(/^create_alert$/) do
         @state.set(chat_id, WAITING_FOR_ID_CREATE)
-        answer_with_message("Enter a ICAO, Registration ID or Callsign")
+        answer_with_message('Enter a ICAO, Registration ID or Callsign')
       end
     end
 
@@ -80,15 +79,15 @@ module TelegramBot
 
       regex =~ message.text
 
-      if $~
-        case block.arity
-        when 0
-          yield
-        when 1
-          yield $1
-        when 2
-          yield $1, $2
-        end
+      return unless $LAST_MATCH_INFO
+
+      case block.arity
+      when 0
+        yield
+      when 1
+        yield Regexp.last_match(1)
+      when 2
+        yield Regexp.last_match(1), Regexp.last_match(2)
       end
     end
 
@@ -99,15 +98,15 @@ module TelegramBot
 
       regex =~ message.data
 
-      if $~
-        case block.arity
-        when 0
-          yield
-        when 1
-          yield $1
-        when 2
-          yield $1, $2
-        end
+      return unless $LAST_MATCH_INFO
+
+      case block.arity
+      when 0
+        yield
+      when 1
+        yield Regexp.last_match(1)
+      when 2
+        yield Regexp.last_match(1), Regexp.last_match(2)
       end
     end
 
@@ -120,7 +119,7 @@ module TelegramBot
     end
 
     def delete_alert_message
-      if user_alerts.count == 0
+      if user_alerts.count.zero?
         answer_with_message("You don't have any alerts")
         return
       end
@@ -131,7 +130,7 @@ module TelegramBot
       end
 
       answer_with_message(
-        "Which alert do you want to delete?",
+        'Which alert do you want to delete?',
         markup: Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
       )
     end
@@ -145,12 +144,12 @@ module TelegramBot
     end
 
     def view_alerts
-      alerts = user_alerts.map { |alert| alert.name }
+      alerts = user_alerts.map(&:name)
 
-      if alerts.size > 0
+      if alerts.size.positive?
         answer_with_message("Current alerts:\n#{alerts.join("\n")}")
       else
-        answer_with_message("No alerts")
+        answer_with_message('No alerts')
       end
     end
 

@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-ENV["RUBY_ENV"] ||= "development"
+ENV['RUBY_ENV'] ||= 'development'
 
-require "bundler"
-Bundler.require(:default, ENV["RUBY_ENV"])
+require 'bundler'
+Bundler.require(:default, ENV['RUBY_ENV'])
 
-require "rake"
-Rake.add_rakelib "lib/tasks"
+require 'rake'
+Rake.add_rakelib 'lib/tasks'
 
-ENV["RUN_BOT"] = "false"
+ENV['RUN_BOT'] = 'false'
 
 task :environment do
-  require_relative "app"
+  require_relative 'app'
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 require 'oj'
 
@@ -10,18 +12,20 @@ class AirplaneFinder
     @value = value
     @details = infer_details(value)
 
-    raise IcaoNotFoundError, "ICAO could not be found" unless @details
+    raise IcaoNotFoundError, 'ICAO could not be found' unless @details
   end
 
   def get_recent_trace
     url = "https://globe.adsbexchange.com/data/traces/#{icao[-2..]}/trace_recent_#{icao}.json"
-    info = JsonLoader.load(url, "Referer" => "https://globe.adsbexchange.com")
+    info = JsonLoader.load(url, 'Referer' => 'https://globe.adsbexchange.com')
     AirplaneInfo.build_from_trace(info)
   rescue OpenURI::HTTPError => e
-    raise TraceNotFoundError, "Could not find plane online"
+    LOGGER.debug("Failed to get plane trace: #{e.message}")
+    raise TraceNotFoundError, 'Could not find plane online'
   end
 
   attr_reader :value, :details
+
   delegate :icao, :registration, to: :details
 
   private

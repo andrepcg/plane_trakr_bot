@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry-struct'
 
 class AirplaneSimpleDetails < Dry::Struct
@@ -12,11 +14,11 @@ class AirplaneSimpleDetails < Dry::Struct
     registration = nil
     callsign = nil
 
-    if icao = RegistrationHandler.icao_from_registration(value)&.downcase
+    if (icao = RegistrationHandler.icao_from_registration(value)&.downcase)
       registration = value
-    elsif registration = RegistrationHandler.registration_from_icao(value)
+    elsif (registration = RegistrationHandler.registration_from_icao(value))
       icao = value.downcase
-    elsif registration = CallsignHandler.search(value)
+    elsif (registration = CallsignHandler.search(value))
       icao = RegistrationHandler.icao_from_registration(registration).downcase
       callsign = value
     end

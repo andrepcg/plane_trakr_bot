@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry-struct'
 
 class AirplaneInfo < Dry::Struct
@@ -11,8 +13,8 @@ class AirplaneInfo < Dry::Struct
   attribute :trace, Dry.Types::Array.of(AirplaneTrace)
 
   def self.build_from_trace(trace)
-    t = trace["trace"].map { |t| AirplaneTrace.build_from_trace(t) }
-    new(**trace.merge("trace" => t))
+    t = trace['trace'].map { |tr| AirplaneTrace.build_from_trace(tr) }
+    new(**trace.merge('trace' => t))
   end
 
   def last_location
@@ -25,6 +27,6 @@ class AirplaneInfo < Dry::Struct
   end
 
   def grounded?
-    trace.last.altitude_ft == "ground"
+    trace.last.altitude_ft == 'ground'
   end
 end

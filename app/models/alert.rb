@@ -12,8 +12,8 @@ class Alert < Sequel::Model
 
   def validate
     super
-    validates_presence [:chat_id, :icao, :registration]
-    validates_unique [:chat_id, :icao]
+    validates_presence %i[chat_id icao registration]
+    validates_unique %i[chat_id icao]
   end
 
   def name

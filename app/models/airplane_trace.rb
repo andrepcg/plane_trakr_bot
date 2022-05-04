@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'dry-struct'
 
@@ -39,6 +40,6 @@ class AirplaneTrace < Dry::Struct
   end
 
   def grounded?
-    altitude_ft == "ground"
+    altitude_ft == 'ground'
   end
 end

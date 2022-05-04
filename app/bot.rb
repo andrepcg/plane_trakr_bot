@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'telegram/bot'
 
 class Bot
@@ -5,14 +7,15 @@ class Bot
     client.run do |bot|
       @bot = bot
 
-      LOGGER.debug("Telegram bot now listening")
+      LOGGER.debug('Telegram bot now listening')
       bot.listen { |m| on_message(m) }
     end
   end
 
   def client
     t = Server.config.telegram_bot_token
-    raise "Set your telegram bot token" unless t.present?
+    raise 'Set your telegram bot token' unless t.present?
+
     Telegram::Bot::Client.new(t)
   end
 
