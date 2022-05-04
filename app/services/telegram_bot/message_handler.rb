@@ -169,12 +169,13 @@ module TelegramBot
     end
 
     def chat_id
-      case message
-      when Telegram::Bot::Types::CallbackQuery
-        message.from.id
-      when Telegram::Bot::Types::Message
-        message.chat.id
-      end
+      id = case message
+           when Telegram::Bot::Types::CallbackQuery
+             message.from.id
+           when Telegram::Bot::Types::Message
+             message.chat.id
+           end
+      id.to_s
     end
   end
 end
