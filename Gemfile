@@ -13,6 +13,7 @@ gem "dry-configurable", "~> 0.15.0"
 gem "dry-struct", "~> 1.4.0"
 gem "rake"
 gem "zeitwerk"
+gem 'dotenv'
 
 group :development do
   gem "byebug"

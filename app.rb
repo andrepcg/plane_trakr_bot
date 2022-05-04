@@ -5,10 +5,14 @@ require "rubygems"
 ENV["RUBY_ENV"] ||= "development"
 
 require "bundler"
+require 'dotenv'
 Bundler.require(:default, ENV["RUBY_ENV"])
+
+Dotenv.load(".env.local") if ENV["RUBY_ENV"] == "development"
 
 require "active_support"
 require "active_support/time"
+require 'active_support/all'
 
 loader = Zeitwerk::Loader.new
 loader.push_dir("#{__dir__}/app")

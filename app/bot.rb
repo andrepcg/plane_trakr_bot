@@ -2,7 +2,7 @@ require 'telegram/bot'
 
 class Bot
   def run
-    client do |bot|
+    client.run do |bot|
       @bot = bot
 
       LOGGER.debug("Telegram bot now listening")
@@ -10,13 +10,19 @@ class Bot
     end
   end
 
+  def client
+    t = Server.config.telegram_bot_token
+    raise "Set your telegram bot token" unless t.present?
+    Telegram::Bot::Client.new(t)
+  end
+
   private
 
   attr_reader :bot
 
   def on_message(message)
-    LOGGER.debug "@#{message.from.username} (chat_id: #{chat_id(message)}): #{text(message)}"
-    TelegramBot::MessageHandler.new(bot: bot, message: message).respond
+    LOGGER.debug "@#{message.from.username} (chat_id: #{chat_id(message)}): #{text(message)} - #{message.class}"
+    TelegramBot::MessageHandler.new(bot: bot, message: message, state: state).respond
   end
 
   def text(message)
@@ -37,7 +43,7 @@ class Bot
     end
   end
 
-  def client(&block)
-    Telegram::Bot::Client.run(Server.config.telegram_bot_token, &block)
+  def state
+    @state ||= TelegramBot::State.new
   end
 end

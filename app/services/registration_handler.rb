@@ -6,22 +6,23 @@ require 'oj'
 class RegistrationHandler
   BASE_URL = "https://globe.adsbexchange.com"
   REG_ICAO_FILE = "reg_icao.json"
+  CACHE_TIME = 1.hour
 
   class << self
     def load
       @REG_ICAO_CACHE = load_reg_icao
     end
 
-    def registration(value)
+    def registration_from_icao(value)
       raise "Registration hasn't been loaded" unless @REG_ICAO_CACHE
 
-      @REG_ICAO_CACHE.key(value)
+      @REG_ICAO_CACHE.key(value.upcase)
     end
 
-    def icao_from_string(value)
+    def icao_from_registration(value)
       raise "Registration hasn't been loaded" unless @REG_ICAO_CACHE
 
-      @REG_ICAO_CACHE[value.upcase]&.upcase || value.upcase
+      @REG_ICAO_CACHE[value.upcase]&.upcase
     end
 
     private
@@ -54,7 +55,7 @@ class RegistrationHandler
     def load_reg_icao_cached
       return unless File.exists?(REG_ICAO_FILE)
 
-      if Time.now - File.mtime(REG_ICAO_FILE) < 1.hour
+      if Time.now - File.mtime(REG_ICAO_FILE) < CACHE_TIME
         Oj.load(File.read(REG_ICAO_FILE))
       else
         File.delete(REG_ICAO_FILE)

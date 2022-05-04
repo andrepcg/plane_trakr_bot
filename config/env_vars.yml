@@ -9,4 +9,4 @@ production:
 
 development:
   <<: *default
-  TELEGRAM_TOKEN: token_here
+  TELEGRAM_TOKEN:
