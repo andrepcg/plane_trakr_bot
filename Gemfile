@@ -16,10 +16,10 @@ gem 'sequel', '~> 5.56'
 gem 'telegram-bot-ruby'
 gem 'zeitwerk'
 gem "sentry-ruby"
+gem 'pry'
 
 group :development do
   gem 'byebug'
-  gem 'pry'
   gem 'rubocop', '~> 1.28', '>= 1.28.2'
   gem 'sqlite3'
 end
