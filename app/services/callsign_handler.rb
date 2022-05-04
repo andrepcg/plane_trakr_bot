@@ -3,7 +3,10 @@ class CallsignHandler
   class << self
     # returns registration ID
     def search(value)
-      get_registration_from_callsign(value)
+      v = value.upcase
+      REDIS_CACHE.fetch("callsign_handler|#{v}", expires_in: 30.seconds) do
+        get_registration_from_callsign(v)
+      end
     end
 
     private

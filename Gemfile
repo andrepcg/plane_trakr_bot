@@ -14,6 +14,7 @@ gem "dry-struct", "~> 1.4.0"
 gem "rake"
 gem "zeitwerk"
 gem 'dotenv'
+gem 'redis'
 
 group :development do
   gem "byebug"

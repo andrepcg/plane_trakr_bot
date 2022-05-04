@@ -24,6 +24,12 @@ module Alerts
 
     attr_reader :alert, :bot, :info
 
+    def get_plane_info
+      REDIS_CACHE.fetch("airplane_info|#{alert.icao}", expires_in: 30.seconds) do
+        AirplaneFinder.new(alert.icao).get_recent_trace
+      end
+    end
+
     def send_alert(info)
       # Only alerts when plane goees from "not_found" to "found"
       return unless alert.last_check_details == "not_found"
