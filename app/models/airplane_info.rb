@@ -34,4 +34,8 @@ class AirplaneInfo < Dry::Struct
   def last_data_received
     Time.at(timestamp + trace.last.seconds_after_ts).to_datetime
   end
+
+  def callsign
+    trace.filter_map { |t| t.details&.dig('flight') }.last.strip
+  end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'telegram/bot'
 
 module Alerts
@@ -18,7 +19,8 @@ module Alerts
           chat_id: alert.chat_id,
           latitude: lat,
           longitude: lng,
-          reply_markup: link_markup
+          reply_markup: link_markup,
+          disable_notification: true
         }
       end
 
@@ -28,6 +30,9 @@ module Alerts
         kb = [
           ::Telegram::Bot::Types::InlineKeyboardButton.new(
             text: 'Go to ADS-B Exchange', url: adsb_exchange_link
+          ),
+          ::Telegram::Bot::Types::InlineKeyboardButton.new(
+            text: 'Remove alert', callback_data: "delete_#{alert.id}"
           )
         ]
         ::Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
