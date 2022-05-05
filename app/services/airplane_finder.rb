@@ -18,6 +18,7 @@ class AirplaneFinder
   def get_recent_trace
     url = "https://globe.adsbexchange.com/data/traces/#{icao.downcase[-2..]}/trace_recent_#{icao.downcase}.json"
     info = JsonLoader.load(url, 'Referer' => 'https://globe.adsbexchange.com')
+
     AirplaneInfo.build_from_trace(info)
   rescue OpenURI::HTTPError => e
     LOGGER.debug("Failed to get plane trace: #{e.message} (#{url})")

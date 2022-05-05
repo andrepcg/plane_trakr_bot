@@ -6,11 +6,12 @@ class AirplaneInfo < Dry::Struct
   transform_keys(&:to_sym)
 
   attribute :icao, Dry.Types::String
-  attribute :r, Dry.Types::String
-  attribute :t, Dry.Types::String
-  attribute :desc, Dry.Types::String
+  attribute? :r, Dry.Types::String.optional
+  attribute? :t, Dry.Types::String.optional
+  attribute? :desc, Dry.Types::String.optional
   attribute :timestamp, Dry.Types::Coercible::Float # last timestamp
   attribute :trace, Dry.Types::Array.of(AirplaneTrace)
+  attribute? :noRegData, Dry.Types::Bool.optional
 
   def self.build_from_trace(trace)
     t = trace['trace'].map { |tr| AirplaneTrace.build_from_trace(tr) }
