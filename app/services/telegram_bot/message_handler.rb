@@ -20,7 +20,7 @@ module TelegramBot
       @bot = bot
       @message = message
       @state = state
-      # @user = User.find_or_create_by(uid: message.from.id)
+      @answered = false
     end
 
     def respond
@@ -79,7 +79,7 @@ module TelegramBot
     private
 
     def on_text(regex, &block)
-      return if message.is_a?(Telegram::Bot::Types::CallbackQuery)
+      return if @answered || message.is_a?(Telegram::Bot::Types::CallbackQuery)
 
       regex =~ message.text
 
@@ -93,10 +93,12 @@ module TelegramBot
       when 2
         yield Regexp.last_match(1), Regexp.last_match(2)
       end
+
+      @answered = true
     end
 
     def on_callback(regex, &block)
-      return if message.is_a?(Telegram::Bot::Types::Message)
+      return if @answered || message.is_a?(Telegram::Bot::Types::Message)
 
       bot.api.answer_callback_query(callback_query_id: message.id)
 
@@ -112,6 +114,8 @@ module TelegramBot
       when 2
         yield Regexp.last_match(1), Regexp.last_match(2)
       end
+
+      @answered = true
     end
 
     def answer_with_greeting_message
