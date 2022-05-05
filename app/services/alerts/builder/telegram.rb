@@ -2,7 +2,7 @@
 
 module Alerts
   module Builder
-    class Telegram
+    class Telegram < Base
       def build_message
         {
           chat_id: alert.chat_id,
@@ -29,7 +29,7 @@ module Alerts
             text: 'Go to ADS-B Exchange', url: adsb_exchange_link
           )
         ]
-        Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
+        ::Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
       end
     end
   end
