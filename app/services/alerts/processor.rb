@@ -16,6 +16,8 @@ module Alerts
     end
 
     def call
+      LOGGER.debug("Processing alert ##{alert.id}")
+
       @info = fetch_plane_info
 
       LOGGER.debug("Found trace for #{alert.icao}")
