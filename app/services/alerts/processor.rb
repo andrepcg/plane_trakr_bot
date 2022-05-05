@@ -4,6 +4,7 @@ module Alerts
   class Processor
     NOT_FOUND = 'not_found'
     FOUND = 'found'
+    CONSIDER_NOT_FOUND_AFTER = 15.minutes
 
     def self.call(alert, bot)
       new(alert, bot).call
@@ -17,8 +18,9 @@ module Alerts
     def call
       @info = get_plane_info
 
-      LOGGER.debug("#{alert.icao} found")
+      LOGGER.debug("Found trace for #{alert.icao}")
 
+      plane_seen_recently!
       process_alert
     rescue AirplaneFinder::IcaoNotFoundError, AirplaneFinder::TraceNotFoundError
       LOGGER.debug("#{alert.icao} not found")
@@ -45,6 +47,15 @@ module Alerts
       end
 
       send_messages
+    end
+
+    def plane_seen_recently!
+      time_without_data = (Time.now - info.last_data_received).seconds
+
+      return unless time_without_data > CONSIDER_NOT_FOUND_AFTER
+
+      LOGGER.debug("#{alert.icao} was last seen at #{time_without_data.in_minutes.to_i}min ago")
+      raise AirplaneFinder::TraceNotFoundError
     end
 
     def send_messages

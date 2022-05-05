@@ -24,17 +24,17 @@ class Migration
 
   def generate_migration(name)
     name ||= raise('Specify name: rake g:migration your_migration')
-    timestamp = Time.now.strftime('%Y%m%d%H%M%S')
-    path = "db/migrate/#{timestamp}_#{name}.rb"
+
+    path = "db/migrate/#{version + 1}_#{name}.rb"
 
     File.open(path, 'w') do |file|
-      file.write <<-FILE
-      # frozen_string_literal: true
+      file.write <<~FILE
+        # frozen_string_literal: true
 
-      Sequel.migration do
-        change do
+        Sequel.migration do
+          change do
+          end
         end
-      end
       FILE
     end
 

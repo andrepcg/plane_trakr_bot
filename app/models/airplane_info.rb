@@ -29,4 +29,8 @@ class AirplaneInfo < Dry::Struct
   def grounded?
     trace.last.altitude_ft == 'ground'
   end
+
+  def last_data_received
+    Time.at(timestamp + trace.last.seconds_after_ts).to_datetime
+  end
 end
