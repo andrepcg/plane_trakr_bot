@@ -2,7 +2,7 @@
 
 module Alerts
   module Builder
-    class MessageBuilder
+    class Teelegram
       def build_message
         {
           chat_id: alert.chat_id,
