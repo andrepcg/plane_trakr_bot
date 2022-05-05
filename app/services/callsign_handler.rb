@@ -16,7 +16,7 @@ class CallsignHandler
       res = JsonLoader.load("https://www.flightradar24.com/v1/search/web/find?query=#{value.upcase}&limit=10")
       return unless res['results'].size.positive?
 
-      record = res['results'].select { |r| r['type'] == 'live' }
+      record = res['results'].detect { |r| r['type'] == 'live' }
       return unless record
 
       record['detail']['reg']

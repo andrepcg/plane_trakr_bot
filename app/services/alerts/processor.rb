@@ -16,7 +16,7 @@ module Alerts
     end
 
     def call
-      @info = get_plane_info
+      @info = fetch_plane_info
 
       LOGGER.debug("Found trace for #{alert.icao}")
 
@@ -33,7 +33,7 @@ module Alerts
 
     attr_reader :alert, :bot, :info
 
-    def get_plane_info
+    def fetch_plane_info
       REDIS_CACHE.fetch("airplane_info|#{alert.icao}", expires_in: 30.seconds) do
         AirplaneFinder.new(alert.icao).get_recent_trace
       end
@@ -68,7 +68,7 @@ module Alerts
     end
 
     def message_builder
-      @message_builder ||= MessageBuilder.new(alert, info)
+      @message_builder ||= Builder::Telegram.new(alert, info)
     end
   end
 end
