@@ -22,20 +22,10 @@ class RegistrationHandler
     def icao_from_registration(value)
       raise "Registration hasn't been loaded" unless @reg_icao_cache
 
-      @reg_icao_cache[value.upcase]&.upcase || get_icao_from_fr24(value)
+      @reg_icao_cache[value.upcase]&.upcase || Fr24Api.fetch_icao(value)
     end
 
     private
-
-    def get_icao_from_fr24(value)
-      res = JsonLoader.load("https://www.flightradar24.com/v1/search/web/find?query=#{value.upcase}&limit=10")
-      return unless res['results'].size.positive?
-
-      record = res['results'].detect { |r| r['type'] == 'aircraft' }
-      return unless record
-
-      record['detail']['hex']
-    end
 
     def fetch_icao_database_name
       page_string = URI.open(BASE_URL, &:read)
