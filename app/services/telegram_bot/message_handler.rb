@@ -158,6 +158,8 @@ module TelegramBot
       answer_with_message("Alert for #{alert.registration} (#{alert.icao}) created!")
     rescue AirplaneFinder::IcaoNotFoundError => e
       answer_with_message("Could not find any plane (ICAO, Registration, Callsign) for '#{value}'")
+    rescue Sequel::ValidationFailed => e
+      LOGGER.debug("Validation failed: #{e.message}")
     end
 
     def answer_with_message(text, markup: nil)
