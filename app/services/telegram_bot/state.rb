@@ -2,18 +2,24 @@
 
 module TelegramBot
   class State
-    STATE = {}.freeze
+    def initialize
+      @state = {}
+    end
 
     def get(chat_id)
-      STATE[chat_id]
+      @state[chat_id]
     end
 
     def set(chat_id, value)
-      STATE[chat_id] = value
+      @state[chat_id] = value
     end
 
     def delete(chat_id)
-      STATE.delete(chat_id)
+      @state.delete(chat_id)
+    end
+
+    def purge
+      @state = {}
     end
   end
 end
