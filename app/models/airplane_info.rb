@@ -36,6 +36,6 @@ class AirplaneInfo < Dry::Struct
   end
 
   def callsign
-    trace.filter_map { |t| t.details&.dig('flight') }.last.strip
+    trace.filter_map { |t| t.details&.dig('flight') }.last.strip || 'Not found'
   end
 end

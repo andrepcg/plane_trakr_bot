@@ -24,6 +24,10 @@ module Alerts
         (Time.now - airplane_info.last_data_received).seconds.in_minutes.to_i
       end
 
+      def aircraft_start_time_ago_minutes
+        (Time.now - airplane_info.start_time).seconds.in_minutes.to_i
+      end
+
       def adsb_exchange_link
         "https://globe.adsbexchange.com/?icao=#{alert.icao}"
       end
