@@ -9,7 +9,8 @@ module Alerts
         {
           chat_id: alert.chat_id,
           text: "You're being alerted for #{alert.name}! The plane was found " \
-                "recently (#{aircraft_start_time_ago_minutes} minutes ago).\n" \
+                "recently (started #{aircraft_start_time_ago_minutes} minutes ago, " \
+                "latest data #{aircraft_last_data_minutes} minutes ago).\n" \
                 "Callsign: #{airplane_info.callsign}"
         }
       end
