@@ -163,11 +163,9 @@ module TelegramBot
     end
 
     def answer_with_message(text, markup: nil)
-      if markup
-        bot.api.send_message(chat_id: chat_id, text: text, reply_markup: markup)
-      else
-        bot.api.send_message(chat_id: chat_id, text: text)
-      end
+      m = { chat_id: chat_id, text: text, reply_markup: markup }.compact
+
+      bot.api.send_message(**m)
     end
 
     def user_alerts

@@ -8,7 +8,7 @@ module Alerts
     end
 
     def build_message
-      ago = (Time.now - airplane_info.start_time).seconds.in_minutes.to_i
+      ago = (Time.now - airplane_info.last_data_received).seconds.in_minutes.to_i
       {
         chat_id: alert.chat_id,
         text: "You're being alerted for #{alert.name}! The plane was found recently (#{ago} minutes ago)."
