@@ -50,6 +50,10 @@ module TelegramBot
         view_alerts
       end
 
+      on_text(%r{^/delete_alert$}) do |_id|
+        delete_alert_message
+      end
+
       # on_text(/^[^\/].*/) do |id|
       #   return unless chat_state == WAITING_FOR_ID_DELETE
       # end
