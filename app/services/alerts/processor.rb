@@ -2,6 +2,9 @@
 
 module Alerts
   class Processor
+    NOT_FOUND = 'not_found'
+    FOUND = 'found'
+
     def self.call(alert, bot)
       new(alert, bot).call
     end
@@ -19,7 +22,7 @@ module Alerts
       process_alert
     rescue AirplaneFinder::IcaoNotFoundError, AirplaneFinder::TraceNotFoundError
       LOGGER.debug("#{alert.icao} not found")
-      alert.update(last_check_details: 'not_found')
+      alert.update(last_check_details: NOT_FOUND)
     ensure
       alert.update(last_check_at: Time.now)
     end
@@ -36,7 +39,7 @@ module Alerts
 
     def process_alert
       # Only alerts when plane goees from "not_found" to "found"
-      if alert.last_check_details != 'not_found'
+      if alert.last_check_details != NOT_FOUND
         LOGGER.debug("Exiting the alert has #{alert.icao} was still found last iteration")
         return
       end
@@ -49,7 +52,7 @@ module Alerts
       bot.api.send_message(**message_builder.build_message)
       bot.api.send_location(**message_builder.build_location)
 
-      alert.update(last_alert_sent_at: Time.now, last_check_details: 'found')
+      alert.update(last_alert_sent_at: Time.now, last_check_details: FOUND)
       alert.increment_alerts!
     end
 

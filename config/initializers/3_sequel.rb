@@ -7,6 +7,7 @@ require 'pg'
 Sequel.extension :migration
 
 Sequel::Model.plugin :validation_helpers
+Sequel::Model.plugin :timestamps
 
 DATABASE = Sequel.connect(Server.config.database.url)
 DATABASE.extension :date_arithmetic
