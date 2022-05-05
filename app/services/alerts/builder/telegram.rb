@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'telegram/bot'
 
 module Alerts
   module Builder
@@ -25,7 +26,7 @@ module Alerts
 
       def link_markup
         kb = [
-          Telegram::Bot::Types::InlineKeyboardButton.new(
+          ::Telegram::Bot::Types::InlineKeyboardButton.new(
             text: 'Go to ADS-B Exchange', url: adsb_exchange_link
           )
         ]
