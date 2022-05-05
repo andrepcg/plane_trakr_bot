@@ -169,7 +169,7 @@ module TelegramBot
     end
 
     def user_alerts
-      ::Alert.where(chat_id: chat_id)
+      ::Alert.where(chat_id: chat_id).order(:created_at)
     end
 
     def chat_id
