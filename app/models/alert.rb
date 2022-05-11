@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Alert < Sequel::Model
-  CHECK_INTERVAL = 9.minutes
+  CHECK_INTERVAL = 5.minutes
 
   dataset_module do
     def with_check_available
