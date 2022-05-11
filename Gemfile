@@ -17,6 +17,7 @@ gem 'telegram-bot-ruby'
 gem 'zeitwerk'
 gem "sentry-ruby"
 gem 'pry'
+gem "http"
 
 group :development do
   gem 'byebug'

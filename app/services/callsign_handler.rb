@@ -6,7 +6,7 @@ class CallsignHandler
     def search(value)
       v = value.upcase
       REDIS_CACHE.fetch("callsign_handler|#{v}", expires_in: 30.seconds) do
-        Fr24Api.fetch_registration(v)
+        Fr24::Api.new.fetch_registration(v)
       end
     end
   end

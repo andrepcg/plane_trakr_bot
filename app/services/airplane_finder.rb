@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'open-uri'
-require 'oj'
-
 class AirplaneFinder
   class IcaoNotFoundError < StandardError; end
   class TraceNotFoundError < StandardError; end
@@ -16,11 +13,8 @@ class AirplaneFinder
   end
 
   def get_recent_trace
-    url = "https://globe.adsbexchange.com/data/traces/#{icao.downcase[-2..]}/trace_recent_#{icao.downcase}.json"
-    info = JsonLoader.load(url, 'Referer' => 'https://globe.adsbexchange.com')
-
-    AirplaneInfo.build_from_trace(info)
-  rescue OpenURI::HTTPError => e
+    AdsbX::Api.new.recent_trace(icao)
+  rescue AdsbX::TraceNotFoundError => e
     LOGGER.debug("Failed to get plane trace: #{e.message} (#{url})")
     raise TraceNotFoundError, 'Could not find plane online'
   end

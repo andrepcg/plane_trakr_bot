@@ -22,7 +22,7 @@ class RegistrationHandler
     def icao_from_registration(value)
       raise "Registration hasn't been loaded" unless @reg_icao_cache
 
-      @reg_icao_cache[value.upcase]&.upcase || Fr24Api.fetch_icao(value)
+      @reg_icao_cache[value.upcase]&.upcase || Fr24::Api.new.fetch_icao(value)
     end
 
     private
