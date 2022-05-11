@@ -12,12 +12,12 @@ module AdsbX
     attribute :altitude_ft, Dry.Types::Coercible::Float | Dry.Types::String | Dry.Types::Nil
     attribute :ground_speed_knots, Dry.Types::Coercible::Float | Dry.Types::Nil
     attribute :track_degrees_knots, Dry.Types::Coercible::Float | Dry.Types::Nil
-    attribute :flags, Dry.Types::Integer
+    attribute :flags, Dry.Types::Integer.default(0)
     attribute :vertical_rate_fpm, Dry.Types::Coercible::Float | Dry.Types::Nil
     attribute :details, Dry.Types::Hash | Dry.Types::Nil
     attribute :source, Dry.Types::String | Dry.Types::Nil
-    attribute :geom_altitude, Dry.Types::Coercible::Float | Dry.Types::Nil
-    attribute :geom_vertical_rate, Dry.Types::Coercible::Float | Dry.Types::Nil
+    attribute :geomeetric_altitude, Dry.Types::Coercible::Float | Dry.Types::Nil
+    attribute :geomeetric_vertical_rate, Dry.Types::Coercible::Float | Dry.Types::Nil
     attribute :airspeed, Dry.Types::Coercible::Float | Dry.Types::Nil
     attribute :roll_angle, Dry.Types::Coercible::Float | Dry.Types::Nil
 
@@ -33,15 +33,39 @@ module AdsbX
         vertical_rate_fpm: trace[7],
         details: trace[8],
         source: trace[9],
-        geom_altitude: trace[10],
-        geom_vertical_rate: trace[11],
+        geomeetric_altitude: trace[10],
+        geomeetric_vertical_rate: trace[11],
         airspeed: trace[12],
         roll_angle: trace[13]
       )
     end
 
+    def altitude_type
+      altitude_geometric? ? :geometric : :barometric
+    end
+
+    def vertical_rate_type
+      vertical_rate_geometric? ? :geometric : :barometric
+    end
+
     def grounded?
       altitude_ft == 'ground'
+    end
+
+    def stale_position?
+      (flags & 1).positive?
+    end
+
+    def new_leg?
+      (flags & 2).positive?
+    end
+
+    def vertical_rate_geometric?
+      (flags & 4).positive?
+    end
+
+    def altitude_geometric?
+      (flags & 8).positive?
     end
   end
 end
