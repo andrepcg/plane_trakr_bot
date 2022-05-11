@@ -1,3 +1,5 @@
+![Logo](logo.png?raw=true "PlaneTrakrBot")
+
 # PlaneTrakrBot
 
 PlaneTrakrBot is a Telegram bot built with Ruby to send alerts when a airplane is found in ADS-B Exchange data
