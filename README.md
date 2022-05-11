@@ -6,8 +6,6 @@ PlaneTrakrBot is a Telegram bot built with Ruby to send alerts when a airplane i
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
 ```bash
 bundle install
 rake db:migrate
