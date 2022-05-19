@@ -12,12 +12,12 @@ class Alert < Sequel::Model
 
   def validate
     super
-    validates_presence %i[chat_id icao registration]
+    validates_presence %i[chat_id icao]
     validates_unique %i[chat_id icao]
   end
 
   def name
-    "#{registration} (ICAO: #{icao})"
+    "#{registration || "no-reg"} (ICAO: #{icao})"
   end
 
   def increment_alerts!
