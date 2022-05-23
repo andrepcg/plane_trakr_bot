@@ -15,7 +15,7 @@ class AirplaneFinder
   def get_recent_trace
     AdsbX::Api.new.recent_trace(icao)
   rescue AdsbX::TraceNotFoundError => e
-    LOGGER.debug("Failed to get plane trace: #{e.message} (#{url})")
+    LOGGER.debug("Failed to get plane trace: #{e.message}")
     raise TraceNotFoundError, 'Could not find plane online'
   end
 
